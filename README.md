@@ -1,2 +1,3 @@
-# slido-task
-Single page app for event administration
+# TODO
+
+for now deleted output of `npx create-react-app`, what an achievement
