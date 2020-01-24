@@ -1,9 +1,14 @@
 import React from 'react'
 
-import './EventsPage.css'
+import CaseList from './components/CaseList'
+import FormInput from './components/FormInput'
+import FormTextarea from './components/FormTextarea'
+
+import './View.css'
+
 import { sortedArrayItemInsertionIndex } from './helper'
 
-class EventsPage extends React.Component {
+class View extends React.Component {
 	constructor() {
 		super()
 		this.defaultFormValues = {
@@ -22,6 +27,9 @@ class EventsPage extends React.Component {
 		}
 
 		this.handleSubmitEvent = this.handleSubmitEvent.bind(this)
+		this.selectDisplayedCase = this.selectDisplayedCase.bind(this)
+		this.handleFormChangeEvent = this.handleFormChangeEvent.bind(this)
+		this.handleFormBlurEvent = this.handleFormBlurEvent.bind(this)
 	}
 
 	validateFormFields(...fields) {
@@ -29,6 +37,7 @@ class EventsPage extends React.Component {
 		const newFormErrorFlags = fields.reduce(
 			reduceCb, this.state.formErrorFlags
 		)
+		console.log(newFormErrorFlags)
 		this.setState({
 			formErrorFlags: newFormErrorFlags
 		})
@@ -69,16 +78,16 @@ class EventsPage extends React.Component {
 				// keeps the order of the selected item
 				selectedCase: this.state.selectedCase === undefined ? 0 : ( insertionIndex <= this.state.selectedCase ? this.state.selectedCase + 1 : this.state.selectedCase ),
 				// reset the form here, also forces rerender
-				//formValues: { ...this.defaultFormValues },
+				formValues: { ...this.defaultFormValues },
 				formErrorFlags: {}
 			})
 		}
 	}
 
-	handleSelectCase(selectedCase, event) {
-		if (selectedCase < this.state.cases.length && selectedCase >= 0) {
+	selectDisplayedCase(selectedCaseIndex) {
+		if (selectedCaseIndex < this.state.cases.length && selectedCaseIndex >= 0) {
 			this.setState({
-				selectedCase
+				selectedCaseIndex
 			})
 		}
 	}
@@ -86,115 +95,72 @@ class EventsPage extends React.Component {
 	render() {
 		const displayPast = this.state.selectedCase > 0
 		const displayFuture = this.state.selectedCase + 1 < this.state.cases.length
-		const requiredFieldErrorMessage = (
-			<div className="error">
-				Field is required
-			</div>
-		)
 		return (
 			<div id="container">
 				<section className="cases">
-					{displayPast && 
-						<section id="past">
-							<h4 className="case-list-title">Past Events</h4>
-							<ul className="case-list">
-							{
-								this.state.cases.slice(0, this.state.selectedCase).map((case_, index) => (
-									<li key={index} onClick={this.handleSelectCase.bind(this, index)}>
-										<i>{'[' + case_.date.toLocaleDateString() + '] '}</i>
-										{case_.title.substring(0,50) + (case_.title.length > 50 ? '...' : '' )}
-									</li>		
-								))
-							}
-							</ul>
-						</section>
+					{
+						displayPast && <CaseList id="past" caseEntries={this.state.cases.slice(0, this.state.selectedCaseIndex)} handleSelectCase={this.selectDisplayedCase}/>
 					}
 					{
-						this.state.cases.length > 1 && (
+						this.state.cases.length > 1 &&
 							<div id="cases-hint">
 								<h4>Pick an event to display</h4>
 								<h6>lists are scrollable :)</h6>
 							</div>
-						)
 					}
 					{
-						displayFuture && (
-							<section id="future">
-								<h4 className="case-list-title">Future Events</h4>
-								<ul className="case-list">
-								{
-									this.state.cases.slice(this.state.selectedCase + 1).map((case_, index) => (
-										<li key={index} onClick={this.handleSelectCase.bind(this, this.state.selectedCase + index + 1)}>
-											<i>{'[' + case_.date.toLocaleDateString() + '] '}</i>
-											{case_.title.substring(0,50) + (case_.title.length > 50 ? '...' : '' )}
-										</li>		
-									))
-								}
-								</ul>
-							</section>
-						)
+						displayFuture && 
+							<CaseList 
+								id="future" 
+								caseEntries={this.state.cases.slice(this.state.selectedCaseIndex + 1)} 
+								handleSelectCase={this.selectDisplayedCase} 
+								offset={this.state.selectedCaseIndex + 1}
+							/>
 					}
 				</section>
 				<section id="content">
 				{
 					// conition whether array index is in range already verified in event hadler "handle select case"
-					// first condition does not catch when state.selectedCase is equal to zeros
+					// first condition does not catch when state.selectedCase is equal to zero
 					(this.state.selectedCase || this.state.selectedCase === 0) ? (
-							<React.Fragment>
+							<>
 								<h2 id="content-title">{this.state.cases[this.state.selectedCase].title}</h2>
 								<i>{this.state.cases[this.state.selectedCase].date.toLocaleDateString()}</i>
 								<p>{'Description: ' + this.state.cases[this.state.selectedCase].description}</p>
-							</React.Fragment>
+							</>
 						) : (
-							<React.Fragment>
+							<>
 								Submit form down below to add events
-							</React.Fragment>
+							</>
 						)
 				}
 				</section>
 				<form id="case-add" onSubmit={this.handleSubmitEvent}>
 					<h3 id="form-title">Submit event here</h3>
-					<React.Fragment>
-						{this.state.formErrorFlags.title && requiredFieldErrorMessage}
-						<label htmlFor="title">
-							Event Title:
-						</label>
-						<input
-							name="title"
-							type="text"
-							value={this.state.formValues.title}
-							onChange={this.handleFormChangeEvent.bind(this, 'title')} 
-							onBlur={this.handleFormBlurEvent.bind(this, 'title')}
-						/>
-					</React.Fragment>
-
-					<React.Fragment>
-						{this.state.formErrorFlags.description && requiredFieldErrorMessage}
-						<label htmlFor="description">
-							Description:
-						</label>
-						<textarea
-							name="description"
-							value={this.state.formValues.description}
-							rows={5}
-							onChange={this.handleFormChangeEvent.bind(this, 'description')}
-							onBlur={this.handleFormBlurEvent.bind(this, 'description')}	
-						/>
-					</React.Fragment>
-					<React.Fragment>
-						{this.state.formErrorFlags.date && requiredFieldErrorMessage}
-						<label htmlFor="date">
-							Event Date:
-						</label>
-						<input
-							name="date"
-							type="date"
-							value={this.state.formValues.date}
-							onChange={this.handleFormChangeEvent.bind(this, 'date')} 
-							onBlur={this.handleFormBlurEvent.bind(this, 'date')}
-						/>
-						</React.Fragment>
-
+					<FormInput
+						name="title" label="Title"
+						type="text"
+						errorFlag={this.state.formErrorFlags.title}
+						onBlur={this.handleFormBlurEvent}
+						onChange={this.handleFormChangeEvent}
+						value={this.state.formValues.title || ''}
+					/>
+					<FormTextarea
+						name="description" label="Description"
+						errorFlag={this.state.formErrorFlags.description}
+						onBlur={this.handleFormBlurEvent}
+						onChange={this.handleFormChangeEvent}
+						rows={5}
+						value={this.state.formValues.description || ''}
+					/>
+					<FormInput
+						name="date" label="Event Date"
+						type="date"
+						errorFlag={this.state.formErrorFlags.date}
+						onBlur={this.handleFormBlurEvent}
+						onChange={this.handleFormChangeEvent}
+						value={this.state.formValues.date || ''}
+					/>
 					<input className="submit-button" type="submit" value="Add Event" />
 				</form>
 			</div>
@@ -202,4 +168,4 @@ class EventsPage extends React.Component {
 	}
 }
 
-export default EventsPage
+export default View
