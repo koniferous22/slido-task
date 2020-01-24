@@ -1,7 +1,6 @@
-
 // Insert-sort like function, obviously used stack overflow https://stackoverflow.com/questions/1344500/
 // binary search for the index, where new case/event should be inserted
-export function sortedArrayItemInsertionIndex(array, value, lessThanBy) {
+export function sortedArrayItemInsertionIndex<T>(array: Array<T>, value: T, lessThanBy: (x: T,y: T) => boolean ): number {
     let lowIndex = 0, highIndex = array.length;
 
     while (lowIndex < highIndex) {

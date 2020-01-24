@@ -1,6 +1,7 @@
 import React from 'react'
+import { FormInputProps } from '../types/FormInput'
 
-const FormInput = props => {
+const FormInput = (props: FormInputProps) => {
 	const {name, label, errorFlag, onChange, onBlur, ...rest} = props	
 	return (
 		<>

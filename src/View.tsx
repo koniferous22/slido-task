@@ -1,27 +1,33 @@
 import React from 'react'
 
+import { ViewState } from './types/ViewState'
+import { Case } from './types/Case'
+import { Dictionary } from './types/Dictionary'
+
 import CaseList from './components/CaseList'
 import FormInput from './components/FormInput'
-import FormTextarea from './components/FormTextarea'
+import FormTextArea from './components/FormTextArea'
 
 import './View.css'
 
 import { sortedArrayItemInsertionIndex } from './helper'
 
-class View extends React.Component {
-	constructor() {
-		super()
-		this.defaultFormValues = {
-			title: '',
-			description: '',
-			date: ''
-		}
+
+const defaultFormValues: Dictionary<string> = {
+	title: '',
+	description: '',
+	date: ''
+}
+
+class View extends React.Component<{}, ViewState> {
+	constructor(props: {}) {
+		super(props)
 		this.state = {
 			// we assume this array is sorted by date
 			cases: [],
-			selectedCase: undefined,
+			selectedCaseIndex: 0,
 			// decided not to use nested state, because of the overhead when accessing attributes
-			formValues: { ...this.defaultFormValues },
+			formValues: { ...defaultFormValues },
 			// for now empty, so that the messages are undefined
 			formErrorFlags: { }
 		}
@@ -32,59 +38,58 @@ class View extends React.Component {
 		this.handleFormBlurEvent = this.handleFormBlurEvent.bind(this)
 	}
 
-	validateFormFields(...fields) {
-		const reduceCb = (flagz, field) => (typeof field !== 'string' && this.state.formValues[field]) ? flagz : Object.assign(flagz, {[field]: this.state.formValues[field] === ''})
+	validateFormFields(...fields: string[]) {
+		const reduceCb = (flagz: Dictionary<boolean>, field: string): Dictionary<boolean> => {
+			return /*const result = this.state.formValues[field] ? flagz :*/ Object.assign(flagz, {[field]: (this.state.formValues[field] === '')})
+		}
 		const newFormErrorFlags = fields.reduce(
 			reduceCb, this.state.formErrorFlags
 		)
-		console.log(newFormErrorFlags)
 		this.setState({
 			formErrorFlags: newFormErrorFlags
 		})
 	}
 	
-	handleFormChangeEvent(formField, event) {
+	handleFormChangeEvent(formField: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
 		this.setState({
-			formValues: Object.assign(this.state.formValues, {[formField]: event.target.value})
+			formValues: Object.assign(this.state.formValues, {[formField]: event.target.value.trim()})
 		})
 	}
 
-	handleFormBlurEvent(formField) {
-		this.validateFormFields(formField);
+	handleFormBlurEvent(formField: string) {
+		this.validateFormFields(formField)
 	}
 
-	handleSubmitEvent(event) {
+	handleSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
 		// prevents page reloading on form submit
 		event.preventDefault();
 		
 		this.validateFormFields('title', 'description', 'date')
-		const parsers = {
-			title: value => value,
-			description: value => value,
-			date: value => new Date(value)
-		}
 
 		// verify that every error has been fixed
-		if (Object.keys(this.state.formErrorFlags).every(key => this.state.formErrorFlags[key] === false)) {
-			const newCase = Object.fromEntries(
-				Object.entries(this.state.formValues).map(([key, value]) => [key, parsers[key](value)])
-			)
-
-			let insertionIndex = sortedArrayItemInsertionIndex(this.state.cases, newCase, (c1, c2) => c1.date < c2.date)
+		if (Object.keys(this.state.formErrorFlags).every((key: string) => this.state.formErrorFlags[key] === false)) {
+			// Previous revision contains cooler way to do this, but had to resolve typescript and stuff like that
+			// still probably better, cause lower overhead (not worth applying arrow functions on 3 items :D )
+			const newCase: Case = {
+				title: this.state.formValues.title,
+				description: this.state.formValues.description,
+				date: new Date(this.state.formValues.date)
+			}
+			const insertionIndex: number = sortedArrayItemInsertionIndex(this.state.cases, newCase, (c1: Case, c2: Case): boolean => c1.date < c2.date)
 			// inserts in to the array
-			this.state.cases.splice(insertionIndex, 0, newCase);
+			this.state.cases.splice(insertionIndex, 0, newCase)
 
 			this.setState({
 				// keeps the order of the selected item
-				selectedCase: this.state.selectedCase === undefined ? 0 : ( insertionIndex <= this.state.selectedCase ? this.state.selectedCase + 1 : this.state.selectedCase ),
+				selectedCaseIndex:  insertionIndex <= this.state.selectedCaseIndex ? this.state.selectedCaseIndex + 1 : this.state.selectedCaseIndex,
 				// reset the form here, also forces rerender
-				formValues: { ...this.defaultFormValues },
+				formValues: { ...defaultFormValues },
 				formErrorFlags: {}
 			})
 		}
 	}
 
-	selectDisplayedCase(selectedCaseIndex) {
+	selectDisplayedCase(selectedCaseIndex: number) {
 		if (selectedCaseIndex < this.state.cases.length && selectedCaseIndex >= 0) {
 			this.setState({
 				selectedCaseIndex
@@ -93,8 +98,8 @@ class View extends React.Component {
 	}
 
 	render() {
-		const displayPast = this.state.selectedCase > 0
-		const displayFuture = this.state.selectedCase + 1 < this.state.cases.length
+		const displayPast: boolean = this.state.selectedCaseIndex > 0
+		const displayFuture: boolean = this.state.selectedCaseIndex + 1 < this.state.cases.length
 		return (
 			<div id="container">
 				<section className="cases">
@@ -120,13 +125,11 @@ class View extends React.Component {
 				</section>
 				<section id="content">
 				{
-					// conition whether array index is in range already verified in event hadler "handle select case"
-					// first condition does not catch when state.selectedCase is equal to zero
-					(this.state.selectedCase || this.state.selectedCase === 0) ? (
+					this.state.cases[this.state.selectedCaseIndex] ? (
 							<>
-								<h2 id="content-title">{this.state.cases[this.state.selectedCase].title}</h2>
-								<i>{this.state.cases[this.state.selectedCase].date.toLocaleDateString()}</i>
-								<p>{'Description: ' + this.state.cases[this.state.selectedCase].description}</p>
+								<h2 id="content-title">{this.state.cases[this.state.selectedCaseIndex].title}</h2>
+								<i>{this.state.cases[this.state.selectedCaseIndex].date.toLocaleDateString()}</i>
+								<p>{'Description: ' + this.state.cases[this.state.selectedCaseIndex].description}</p>
 							</>
 						) : (
 							<>
@@ -145,7 +148,7 @@ class View extends React.Component {
 						onChange={this.handleFormChangeEvent}
 						value={this.state.formValues.title || ''}
 					/>
-					<FormTextarea
+					<FormTextArea
 						name="description" label="Description"
 						errorFlag={this.state.formErrorFlags.description}
 						onBlur={this.handleFormBlurEvent}

@@ -1,6 +1,7 @@
 import React from 'react'
+import { FormTextAreaProps } from '../types/FormTextArea'
 
-const FormTextarea = props => {
+const FormTextArea = (props: FormTextAreaProps) => {
 	const {name, label, errorFlag, onChange, onBlur, ...rest} = props	
 	return (
 		<>
@@ -24,4 +25,4 @@ const FormTextarea = props => {
 	)
 }
 
-export default FormTextarea
+export default FormTextArea
