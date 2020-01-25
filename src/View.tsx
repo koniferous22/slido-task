@@ -8,7 +8,7 @@ import CaseList from './components/CaseList'
 import FormInput from './components/FormInput'
 import FormTextArea from './components/FormTextArea'
 
-import './View.css'
+import './styles/View.css'
 
 import { sortedArrayItemInsertionIndex } from './helper'
 
@@ -40,7 +40,7 @@ class View extends React.Component<{}, ViewState> {
 
 	validateFormFields(...fields: string[]) {
 		const reduceCb = (flagz: Dictionary<boolean>, field: string): Dictionary<boolean> => {
-			return /*const result = this.state.formValues[field] ? flagz :*/ Object.assign(flagz, {[field]: (this.state.formValues[field] === '')})
+			return Object.assign(flagz, {[field]: (this.state.formValues[field].trim() === '')})
 		}
 		const newFormErrorFlags = fields.reduce(
 			reduceCb, this.state.formErrorFlags
@@ -52,7 +52,7 @@ class View extends React.Component<{}, ViewState> {
 	
 	handleFormChangeEvent(formField: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
 		this.setState({
-			formValues: Object.assign(this.state.formValues, {[formField]: event.target.value.trim()})
+			formValues: Object.assign(this.state.formValues, {[formField]: event.target.value})
 		})
 	}
 
@@ -81,7 +81,7 @@ class View extends React.Component<{}, ViewState> {
 
 			this.setState({
 				// keeps the order of the selected item
-				selectedCaseIndex:  insertionIndex <= this.state.selectedCaseIndex ? this.state.selectedCaseIndex + 1 : this.state.selectedCaseIndex,
+				selectedCaseIndex:  (insertionIndex <= this.state.selectedCaseIndex && insertionIndex + 1 < this.state.cases.length) ? this.state.selectedCaseIndex + 1 : this.state.selectedCaseIndex,
 				// reset the form here, also forces rerender
 				formValues: { ...defaultFormValues },
 				formErrorFlags: {}
@@ -104,7 +104,13 @@ class View extends React.Component<{}, ViewState> {
 			<div id="container">
 				<section className="cases">
 					{
-						displayPast && <CaseList id="past" caseEntries={this.state.cases.slice(0, this.state.selectedCaseIndex)} handleSelectCase={this.selectDisplayedCase}/>
+						displayPast && 
+							<CaseList
+								id="past"
+								label="Past Events"
+								caseEntries={this.state.cases.slice(0, this.state.selectedCaseIndex)}
+								handleSelectCase={this.selectDisplayedCase}
+							/>
 					}
 					{
 						this.state.cases.length > 1 &&
@@ -116,7 +122,8 @@ class View extends React.Component<{}, ViewState> {
 					{
 						displayFuture && 
 							<CaseList 
-								id="future" 
+								id="future"
+								label="Future Events"
 								caseEntries={this.state.cases.slice(this.state.selectedCaseIndex + 1)} 
 								handleSelectCase={this.selectDisplayedCase} 
 								offset={this.state.selectedCaseIndex + 1}
