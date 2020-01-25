@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { ViewState } from './types/ViewState'
-import { Case } from './types/Case'
-import { Dictionary } from './types/Dictionary'
+import { ViewState } from '../types/ViewState'
+import { Case } from '../types/Case'
+import { Dictionary } from '../types/Dictionary'
 
-import CaseList from './components/CaseList'
-import FormInput from './components/FormInput'
-import FormTextArea from './components/FormTextArea'
+import CaseList from '../components/CaseList'
+import FormInput from '../components/FormInput'
+import FormTextArea from '../components/FormTextArea'
 
-import './styles/View.css'
+import '../styles/View.css'
 
-import { sortedArrayItemInsertionIndex } from './helper'
+import { sortedArrayItemInsertionIndex } from '../helper/helper'
 
 
 const defaultFormValues: Dictionary<string> = {
@@ -102,7 +102,7 @@ class View extends React.Component<{}, ViewState> {
 		const displayFuture: boolean = this.state.selectedCaseIndex + 1 < this.state.cases.length
 		return (
 			<div id="container">
-				<section className="cases">
+				<section id="cases">
 					{
 						displayPast && 
 							<CaseList

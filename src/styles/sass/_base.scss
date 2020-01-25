@@ -1,0 +1,80 @@
+$font: Verdana, sans-serif;
+$font-color: #1e1309;
+$background-color: rgb(245,245,245);
+
+$case-list-max-width: 30vw;
+$cool-transformation-left: matrix3d(
+	1, 0, 0, 0.001,
+	0.1, 1, 0, 0,
+	0, 0, 1, 0,
+	0, 0, 0, 1);
+$cool-transformation-right: matrix3d(
+	1, 0, 0, -0.001,
+	-0.1, 1, 0, 0,
+	0, 0, 1, 0,
+	0, 0, 0, 1);
+
+$form-width: 66vw;
+$form-label-column-width: 100px;
+$form-columns: 2;
+
+$form-input-border-radius: 5px;
+$form-submit-border: 2px solid #51300a;
+
+$transition-time: .2s;
+
+@mixin scrollable-case-list {
+	max-height: 20vh;
+	overflow-y: scroll;
+	padding: 10px 5vw;
+	border-radius: 20px;
+}
+
+@mixin fix-text-wrap {
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+@mixin page-section($margin-top, $max-width) {
+	margin: $margin-top auto auto auto;
+	max-width: $max-width;
+}
+
+@mixin disable-small-devices($max-width) {
+	@media screen and (max-width: $max-width) {
+			display: none;
+	}
+}
+
+@function greyscale-shade($value, $opacity) {
+	@return rgba($value, $value, $value, $opacity);
+}
+
+@mixin bottom-border-overlay($shade, $fadeout-start-at) {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to bottom, greyscale-shade($shade,0) 0%, greyscale-shade($shade,0) $fadeout-start-at, greyscale-shade($shade,1) 100%);
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+@mixin case-list-scrollbar {
+	ul.case-list {
+			/*disable scrollbar in firefox*/
+			scrollbar-width: none;
+	}
+
+	ul.case-list:hover {
+			/*works only in firefox*/
+			scrollbar-width: thin;
+	}
+
+	/*disable scrollbar in webkit based browsers*/
+	ul.case-list::-webkit-scrollbar {
+		 display: none;
+	}
+}

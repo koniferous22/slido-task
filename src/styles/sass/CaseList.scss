@@ -1,0 +1,54 @@
+@use './_base.scss' as base;
+
+%case-list-section {
+	max-width: base.$case-list-max-width;
+	/*FLAG*/
+	/*overflow-x: auto;*/
+}
+
+section#cases {
+	div#cases-hint {
+		flex-shrink: 2;
+		@include base.disable-small-devices(600px);
+		/*FLAG*/
+		/*margin: auto 0;*/
+	}
+	 
+
+	section#past {
+		@extend %case-list-section;
+		transform: base.$cool-transformation-left;
+	}
+
+
+	section#future {
+		@extend %case-list-section;
+		transform: base.$cool-transformation-right;
+	}
+
+	ul.case-list {
+		@include base.scrollable-case-list;
+
+		transition: transform base.$transition-time;
+		list-style-type: none;
+		
+		/*disable scrollbar in firefox*/
+		scrollbar-width: none;
+	}
+
+	@include base.case-list-scrollbar;
+
+	ul.case-list:after {
+		@include base.bottom-border-overlay(245, 70%);
+	}
+
+	ul.case-list li {
+		transition: transform base.$transition-time;
+	}
+
+	ul.case-list li:hover {
+		transform: scale(1.1);
+		cursor: pointer;
+	}
+}
+

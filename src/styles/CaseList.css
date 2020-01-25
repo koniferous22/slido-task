@@ -1,31 +1,22 @@
-section.cases {
-    grid-area: cases;
-    text-align: center;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-section.cases div#cases-hint {
+section#cases div#cases-hint {
 	flex-shrink: 2;
 	margin: auto 0;
 
 }
 
 @media screen and (max-width: 600px) {
-	section.cases div#cases-hint {
+	section#cases div#cases-hint {
 		display: none;
 	}
 }
 
-section.cases section {
+section#cases section {
 	max-width: 30vw;
 	overflow-x: auto;
 	flex-grow: 30000;
 }
 
-section.cases section#past {
+section#cases section#past {
 	transform: matrix3d(
     	1, 0, 0, 0.001,
     	0.1, 1, 0, 0,
@@ -33,7 +24,7 @@ section.cases section#past {
     	0, 0, 0, 1);
 }
 
-section.cases section#future {
+section#cases section#future {
 	transform: matrix3d(
     	1, 0, 0, -0.001,
     	-0.1, 1, 0, 0,
@@ -42,10 +33,10 @@ section.cases section#future {
 	/*margin-right: 50px;*/
 }
 
-section.cases ul.case-list {
+section#cases ul.case-list {
     max-height: 20vh;
 	overflow-y: scroll;
-    padding: 10px 5vw;
+    padding: 10px 5vw 50px 5vw;
     border-radius: 20px;
 
     transition: transform .2s;
@@ -55,17 +46,17 @@ section.cases ul.case-list {
     list-style-type: none;
 }
 
-section.cases ul.case-list:hover {
+section#cases ul.case-list:hover {
 	scrollbar-width: thin;
 }
 
 /*disable scrollbar in webkit based browsers*/
-section.cases ul.case-list::-webkit-scrollbar {
+section#cases ul.case-list::-webkit-scrollbar {
    display: none;
 }
 
 
-section.cases ul.case-list:after {
+section#cases ul.case-list:after {
     content: "";
     display: block;
     width: 100%;
@@ -77,11 +68,11 @@ section.cases ul.case-list:after {
     left: 0;
 }
 
-section.cases ul.case-list li {
+section#cases ul.case-list li {
 	transition: transform .2s;
 }
 
-section.cases ul.case-list li:hover {
+section#cases ul.case-list li:hover {
 	transform: scale(1.1);
 	cursor: pointer;
 }

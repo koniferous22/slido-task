@@ -10,10 +10,12 @@ div#container {
 	font-family: Verdana, sans-serif;
 }
 
-
-/*
-* case list
-*/
+div#container section#cases {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
 
 section#content {
 	text-align: center;

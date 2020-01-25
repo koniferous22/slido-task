@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormInputProps } from '../types/FormInput'
 
-const FormInput = (props: FormInputProps) => {
+const FormInput: React.FC<FormInputProps> = (props: FormInputProps) => {
 	const {name, label, errorFlag, onChange, onBlur, ...rest} = props	
 	return (
 		<>
@@ -18,8 +18,8 @@ const FormInput = (props: FormInputProps) => {
 			<input
 				{...rest}
 				name={name}
-				onChange={(event) => onChange(name, event)}
-				onBlur={() => onBlur(name)}
+				onChange={(event): void => onChange(name, event)}
+				onBlur={(): void => onBlur(name)}
 			/>			
 		</>
 	)

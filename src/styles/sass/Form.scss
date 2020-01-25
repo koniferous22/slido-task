@@ -1,0 +1,47 @@
+@use './_base.scss' as base;
+
+form#case-add {
+	@include base.page-section(auto, 600px);
+	display: grid;
+	grid-template-columns: base.$form-label-column-width auto;
+	/*margin: auto;
+	max-width: 600px;*/
+	width: base.$form-width;
+
+	%form-full-width {
+		grid-column: 1 / (base.$form-columns + 1);
+		text-align: center;
+	}
+
+	h3#form-title {
+		@extend %form-full-width;
+	}
+	
+	div.error {
+		@extend %form-full-width;
+		font-weight: bold;
+		color: red;
+	}
+
+	input, textarea {
+		border-radius: base.$form-input-border-radius;
+	}
+
+	textarea {
+		resize: none;
+	}
+	
+	input.submit-button {
+		@extend %form-full-width;
+		margin: 20px auto;
+		border: base.$form-submit-border;
+		
+		background-color: transparent;
+		font-weight: bold;
+	}
+
+	input.submit-button:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+}
