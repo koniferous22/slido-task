@@ -38,7 +38,7 @@ class View extends React.Component<{}, ViewState> {
 		this.handleFormBlurEvent = this.handleFormBlurEvent.bind(this)
 	}
 
-	validateFormFields(...fields: string[]) {
+	validateFormFields(...fields: string[]): void {
 		const reduceCb = (flagz: Dictionary<boolean>, field: string): Dictionary<boolean> => {
 			return Object.assign(flagz, {[field]: (this.state.formValues[field].trim() === '')})
 		}
@@ -50,17 +50,17 @@ class View extends React.Component<{}, ViewState> {
 		})
 	}
 	
-	handleFormChangeEvent(formField: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+	handleFormChangeEvent(formField: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void {
 		this.setState({
 			formValues: Object.assign(this.state.formValues, {[formField]: event.target.value})
 		})
 	}
 
-	handleFormBlurEvent(formField: string) {
+	handleFormBlurEvent(formField: string): void {
 		this.validateFormFields(formField)
 	}
 
-	handleSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
+	handleSubmitEvent(event: React.FormEvent<HTMLFormElement>): void {
 		// prevents page reloading on form submit
 		event.preventDefault();
 		
@@ -89,7 +89,7 @@ class View extends React.Component<{}, ViewState> {
 		}
 	}
 
-	selectDisplayedCase(selectedCaseIndex: number) {
+	selectDisplayedCase(selectedCaseIndex: number): void {
 		if (selectedCaseIndex < this.state.cases.length && selectedCaseIndex >= 0) {
 			this.setState({
 				selectedCaseIndex
@@ -97,7 +97,7 @@ class View extends React.Component<{}, ViewState> {
 		}
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const displayPast: boolean = this.state.selectedCaseIndex > 0
 		const displayFuture: boolean = this.state.selectedCaseIndex + 1 < this.state.cases.length
 		return (

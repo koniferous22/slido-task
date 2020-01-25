@@ -2,16 +2,16 @@
 
 import React from 'react'
 import renderer from 'react-test-renderer'
-import FormTextArea from '../components/FormTextArea'
+import FormInput from '../components/FormInput'
 
-it('FormTextArea renders correctly', () => {
+it('FormInput renders correctly', () => {
 	const tree = renderer
 		.create(
-			<FormTextArea
+			<FormInput
 				name="input"
+				type="text"
 				label="Input"
 				value="sample value"
-				rows={5}
 				errorFlag={false}
 				onChange={(): void => {return;}}
 				onBlur={(): void => {return;}}
@@ -20,14 +20,14 @@ it('FormTextArea renders correctly', () => {
 	expect(tree).toMatchSnapshot();
 });
 
-it('FormTextArea renders correctly with error', () => {
+it('FormInput renders correctly with error', () => {
 	const tree = renderer
 		.create(
-			<FormTextArea
+			<FormInput
 				name="input"
+				type="text"
 				label="Input"
 				value="sample value"
-				rows={6}
 				errorFlag={true}
 				onChange={(): void => {return;}}
 				onBlur={(): void => {return;}}

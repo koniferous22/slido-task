@@ -20,13 +20,13 @@ it('CaseList renders correctly', () => {
 		description: "Ziedol som 3 a pol porcie segedinskeho gulasu",
 		date: date2
 	}
-  	const tree = renderer
+	const tree = renderer
 		.create(
 			<CaseList
 				id="case-list"
 				label="Case List"
 				caseEntries={[case1, case2]}
-				handleSelectCase={(_: number) => {}}
+				handleSelectCase={(): void => {return}}
 			/>)
 		.toJSON();
 	expect(tree).toMatchSnapshot();
