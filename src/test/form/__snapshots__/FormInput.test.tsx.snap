@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormInput renders correctly 1`] = `
+Array [
+  <label
+    htmlFor="title"
+  >
+    Input: 
+  </label>,
+  <input
+    id="title"
+    name="title"
+    onBlur={[Function]}
+    onChange={[Function]}
+    type="text"
+    value="sample value"
+  />,
+]
+`;
+
+exports[`FormInput renders correctly with error 1`] = `
+Array [
+  <div
+    className="error"
+    id="error-date"
+  >
+    Field is required
+  </div>,
+  <label
+    htmlFor="date"
+  >
+    Input: 
+  </label>,
+  <input
+    id="date"
+    name="date"
+    onBlur={[Function]}
+    onChange={[Function]}
+    type="text"
+    value="sample value"
+  />,
+]
+`;

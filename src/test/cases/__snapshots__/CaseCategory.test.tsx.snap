@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CaseCategory renders correctly 1`] = `
+<section
+  id="case-list"
+>
+  <h4
+    className="case-list-title"
+  >
+    Case List
+  </h4>
+  <ul
+    className="case-list"
+  >
+    <li
+      onClick={[Function]}
+    >
+      <i>
+        [1/26/2020] 
+      </i>
+      Dni Zelá v Stupave
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      <i>
+        [2/26/2020] 
+      </i>
+      Filakovsky jarmok
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      <i>
+        [2/26/2020] 
+      </i>
+      I'm Rick Harrison, and this is my pawn shop.I work...
+    </li>
+  </ul>
+</section>
+`;

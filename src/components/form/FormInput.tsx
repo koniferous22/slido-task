@@ -18,6 +18,7 @@ const FormInput: React.FC<FormInputProps> = ({name, label, errorFlag, onChange, 
 			</label>
 			<input
 				{...inputProps}
+				id={name}
 				name={name}
 				onChange={(event): void => onChange(name, event.target.value)}
 				onBlur={(): void => onBlur(name)}

@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CaseAddForm renders correctly: future only 1`] = `
+<section
+  id="cases"
+>
+  <div
+    id="cases-hint"
+  >
+    <h4>
+      Pick an event to display
+    </h4>
+    <h6>
+      lists are scrollable :)
+    </h6>
+  </div>
+  <section
+    id="future"
+  >
+    <h4
+      className="case-list-title"
+    >
+      Future Events
+    </h4>
+    <ul
+      className="case-list"
+    >
+      <li
+        onClick={[Function]}
+      >
+        <i>
+          [2/26/2020] 
+        </i>
+        Filakovsky jarmok
+      </li>
+      <li
+        onClick={[Function]}
+      >
+        <i>
+          [2/26/2020] 
+        </i>
+        I'm Rick Harrison, and this is my pawn shop.I work...
+      </li>
+    </ul>
+  </section>
+</section>
+`;
+
+exports[`CaseAddForm renders correctly: past only 1`] = `
+<section
+  id="cases"
+>
+  <section
+    id="past"
+  >
+    <h4
+      className="case-list-title"
+    >
+      Past Events
+    </h4>
+    <ul
+      className="case-list"
+    >
+      <li
+        onClick={[Function]}
+      >
+        <i>
+          [1/26/2020] 
+        </i>
+        Dni Zelá v Stupave
+      </li>
+      <li
+        onClick={[Function]}
+      >
+        <i>
+          [2/26/2020] 
+        </i>
+        Filakovsky jarmok
+      </li>
+    </ul>
+  </section>
+  <div
+    id="cases-hint"
+  >
+    <h4>
+      Pick an event to display
+    </h4>
+    <h6>
+      lists are scrollable :)
+    </h6>
+  </div>
+</section>
+`;
+
+exports[`CaseAddForm renders correctly: perfectly balanced 1`] = `
+<section
+  id="cases"
+>
+  <section
+    id="past"
+  >
+    <h4
+      className="case-list-title"
+    >
+      Past Events
+    </h4>
+    <ul
+      className="case-list"
+    >
+      <li
+        onClick={[Function]}
+      >
+        <i>
+          [1/26/2020] 
+        </i>
+        Dni Zelá v Stupave
+      </li>
+    </ul>
+  </section>
+  <div
+    id="cases-hint"
+  >
+    <h4>
+      Pick an event to display
+    </h4>
+    <h6>
+      lists are scrollable :)
+    </h6>
+  </div>
+  <section
+    id="future"
+  >
+    <h4
+      className="case-list-title"
+    >
+      Future Events
+    </h4>
+    <ul
+      className="case-list"
+    >
+      <li
+        onClick={[Function]}
+      >
+        <i>
+          [2/26/2020] 
+        </i>
+        I'm Rick Harrison, and this is my pawn shop.I work...
+      </li>
+    </ul>
+  </section>
+</section>
+`;

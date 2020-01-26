@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormTextArea renders correctly 1`] = `
+Array [
+  <label
+    htmlFor="input"
+  >
+    Input: 
+  </label>,
+  <textarea
+    id="input"
+    name="input"
+    onBlur={[Function]}
+    onChange={[Function]}
+    rows={5}
+    value="sample value"
+  />,
+]
+`;
+
+exports[`FormTextArea renders correctly with error 1`] = `
+Array [
+  <div
+    className="error"
+    id="error-input"
+  >
+    Field is required
+  </div>,
+  <label
+    htmlFor="input"
+  >
+    Input: 
+  </label>,
+  <textarea
+    id="input"
+    name="input"
+    onBlur={[Function]}
+    onChange={[Function]}
+    rows={6}
+    value="sample value"
+  />,
+]
+`;

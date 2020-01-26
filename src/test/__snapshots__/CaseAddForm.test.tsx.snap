@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CaseAddForm renders correctly 1`] = `
+<form
+  id="case-add"
+  onSubmit={[Function]}
+>
+  <h3
+    id="form-title"
+  >
+    Submit event here
+  </h3>
+  <label
+    htmlFor="title"
+  >
+    Title: 
+  </label>
+  <input
+    id="title"
+    name="title"
+    onBlur={[Function]}
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <label
+    htmlFor="description"
+  >
+    Description: 
+  </label>
+  <textarea
+    id="description"
+    name="description"
+    onBlur={[Function]}
+    onChange={[Function]}
+    rows={5}
+    value=""
+  />
+  <label
+    htmlFor="date"
+  >
+    Event Date: 
+  </label>
+  <input
+    id="date"
+    name="date"
+    onBlur={[Function]}
+    onChange={[Function]}
+    type="date"
+    value=""
+  />
+  <input
+    className="submit-button"
+    type="submit"
+    value="Add Event"
+  />
+</form>
+`;

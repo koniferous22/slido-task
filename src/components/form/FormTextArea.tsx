@@ -18,6 +18,7 @@ const FormTextArea: React.FC<FormTextAreaProps> = ({name, label, errorFlag, onCh
 			</label>
 			<textarea
 				{...textAreaProps}
+				id={name}
 				name={name}
 				onChange={(event): void => onChange(name, event.target.value)}
 				onBlur={(): void => onBlur(name)}
