@@ -8,7 +8,7 @@ const FormInput: React.FC<FormInputProps> = ({name, label, errorFlag, onChange, 
 		<>
 			{
 				errorFlag && (
-					<div className="error">
+					<div className="error" id={"error-" + name}>
 						Field is required
 					</div>
 				)
