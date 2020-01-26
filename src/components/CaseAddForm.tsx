@@ -67,7 +67,7 @@ class CaseAddForm extends React.Component<CaseAddFormProps, CaseAddFormState> {
 		}
 	}
 
-	render() {
+	render(): React.ReactNode {
 
 		const { errorFlags, values } = this.state
 

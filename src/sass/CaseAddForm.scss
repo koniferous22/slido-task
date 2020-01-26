@@ -4,8 +4,7 @@ form#case-add {
 	@include base.page-section(auto, 600px);
 	display: grid;
 	grid-template-columns: base.$form-label-column-width auto;
-	/*margin: auto;
-	max-width: 600px;*/
+	grid-gap: base.$form-grid-gap;
 	width: base.$form-width;
 
 	%form-full-width {
@@ -17,6 +16,10 @@ form#case-add {
 		@extend %form-full-width;
 	}
 	
+	label {
+		justify-self: end;
+	}
+
 	div.error {
 		@extend %form-full-width;
 		font-weight: bold;

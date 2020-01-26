@@ -8,7 +8,7 @@ const FormTextArea: React.FC<FormTextAreaProps> = ({name, label, errorFlag, onCh
 		<>
 			{
 				errorFlag && (
-					<div className="error">
+					<div className="error" id={"error-" + name}>
 						Field is required
 					</div>
 				)

@@ -17,6 +17,7 @@ $cool-transformation-right: matrix3d(
 $form-width: 66vw;
 $form-label-column-width: 100px;
 $form-columns: 2;
+$form-grid-gap: 5px;
 
 $form-input-border-radius: 5px;
 $form-submit-border: 2px solid #51300a;
@@ -64,13 +65,13 @@ $transition-time: .2s;
 
 @mixin case-list-scrollbar {
 	ul.case-list {
-			/*disable scrollbar in firefox*/
-			scrollbar-width: none;
+		/*disable scrollbar in firefox*/
+		scrollbar-width: none;
 	}
 
 	ul.case-list:hover {
-			/*works only in firefox*/
-			scrollbar-width: thin;
+		/*works only in firefox*/
+		scrollbar-width: thin;
 	}
 
 	/*disable scrollbar in webkit based browsers*/
