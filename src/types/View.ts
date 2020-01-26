@@ -1,5 +1,5 @@
-import { Case } from './Case'
-import { Dictionary } from './Dictionary'
+import { Case } from './common/Case'
+import { Dictionary } from './common/Dictionary'
 
 export interface ViewState {
 	cases: Case[];

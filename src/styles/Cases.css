@@ -1,0 +1,14 @@
+section#cases {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+section#cases div#cases-hint {
+	flex-shrink: 2;
+	margin: auto 0;
+	@media screen and (max-width: 600px) {
+		display: none;
+	}
+}

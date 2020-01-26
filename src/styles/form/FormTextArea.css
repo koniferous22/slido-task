@@ -1,0 +1,4 @@
+form#case-add textarea {
+	border-radius: 5px;
+	resize: none;
+}

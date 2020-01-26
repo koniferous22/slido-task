@@ -4,6 +4,6 @@ export interface FormTextAreaProps {
 	value: string;
 	rows: number;
 	errorFlag: boolean;
-	onBlur: (s: string) => void;
-	onChange: (s: string, e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+	onBlur: (field: string) => void;
+	onChange: (field: string, value: string) => void;
 }

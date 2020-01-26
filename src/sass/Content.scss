@@ -1,0 +1,8 @@
+@use 'base';
+
+div#container section#content {
+	@include base.page-section(50px, 80vw);
+	@include base.fix-text-wrap;
+	/*fixes overlaying fade from case list*/
+	z-index: 1;
+}

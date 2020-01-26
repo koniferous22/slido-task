@@ -1,0 +1,13 @@
+@use 'base';
+
+body {
+	background: base.$background-color;
+}
+
+div#container {
+	display: flex;
+	flex-direction: column;
+	font-family: base.$font;
+	color: base.$font-color;
+	text-align: center;
+}

@@ -1,17 +1,13 @@
-@use './_base.scss' as base;
+@use '../_base' as base;
 
 %case-list-section {
 	max-width: base.$case-list-max-width;
-	/*FLAG*/
-	/*overflow-x: auto;*/
 }
 
 section#cases {
 	div#cases-hint {
 		flex-shrink: 2;
 		@include base.disable-small-devices(600px);
-		/*FLAG*/
-		/*margin: auto 0;*/
 	}
 	 
 

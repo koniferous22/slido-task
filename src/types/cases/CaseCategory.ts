@@ -1,6 +1,6 @@
-import { Case } from '../types/Case'
+import { Case } from 'types/common/Case'
 
-export interface CaseListProps {
+export interface CaseCategoryProps {
 	id: string;
 	label: string;
 	caseEntries: Array<Case>;

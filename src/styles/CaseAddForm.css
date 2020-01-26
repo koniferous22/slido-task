@@ -1,0 +1,41 @@
+form#case-add {
+	grid-area: form;
+
+	display: grid;
+	grid-template-columns: 100px auto;
+
+	text-align: center;
+	margin: auto;
+	width: 66vw;
+	max-width: 600px;
+}
+
+
+form#case-add h3#form-title {
+	grid-column: 1/3;
+	text-align: center;
+}
+
+form#case-add div.error {
+	grid-column: 1/3;
+	text-align: center;
+	font-weight: bold;
+	color: red;
+}
+
+form#case-add input.submit-button {
+	text-align: center;
+	background-color: transparent;
+	grid-column: 1/3;
+	
+	margin: 20px auto 10px auto;
+	border-radius: 3px;
+	border: 2px solid #51300a;
+
+	font-weight: bold;
+}
+
+form#case-add input.submit-button:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

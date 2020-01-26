@@ -1,19 +1,8 @@
-section#cases div#cases-hint {
-	flex-shrink: 2;
-	margin: auto 0;
-
-}
-
-@media screen and (max-width: 600px) {
-	section#cases div#cases-hint {
-		display: none;
-	}
-}
-
 section#cases section {
 	max-width: 30vw;
 	overflow-x: auto;
 	flex-grow: 30000;
+    text-align: center;
 }
 
 section#cases section#past {

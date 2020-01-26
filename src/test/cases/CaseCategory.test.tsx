@@ -1,12 +1,10 @@
-'use strict';
-
 import React from 'react'
 import renderer from 'react-test-renderer'
-import CaseList from '../components/CaseList'
+import CaseCategory from 'components/cases/CaseCategory'
 
-import { Case } from '../types/Case'
+import { Case } from 'types/common/Case'
 
-it('CaseList renders correctly', () => {
+it('CaseCategory renders correctly', () => {
 	const date1 = new Date()
 	const date2 = new Date()
 	date2.setMonth(date1.getMonth() + 1)
@@ -22,7 +20,7 @@ it('CaseList renders correctly', () => {
 	}
 	const tree = renderer
 		.create(
-			<CaseList
+			<CaseCategory
 				id="case-list"
 				label="Case List"
 				caseEntries={[case1, case2]}

@@ -1,0 +1,12 @@
+@use 'base' as base;
+
+section#cases {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	div#cases-hint {
+		flex-shrink: 2;
+		@include base.disable-small-devices(600px);
+	}
+}

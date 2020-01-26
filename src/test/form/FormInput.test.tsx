@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react'
 import renderer from 'react-test-renderer'
-import FormInput from '../components/FormInput'
+import FormInput from 'components/form/FormInput'
 
 it('FormInput renders correctly', () => {
 	const tree = renderer

@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react'
 import renderer from 'react-test-renderer'
-import FormTextArea from '../components/FormTextArea'
+import FormTextArea from 'components/form/FormTextArea'
 
 it('FormTextArea renders correctly', () => {
 	const tree = renderer

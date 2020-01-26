@@ -4,6 +4,6 @@ export interface FormInputProps {
 	type: string;
 	value: string;
 	errorFlag: boolean;
-	onBlur: (s: string) => void;
-	onChange: (s: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+	onBlur: (field: string) => void;
+	onChange: (field: string, value: string) => void;
 }

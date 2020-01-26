@@ -1,19 +1,23 @@
 import React from 'react'
 
-import { ViewState } from '../types/ViewState'
-import { Case } from '../types/Case'
-import { Dictionary } from '../types/Dictionary'
+import { ViewState } from 'types/View'
+import { Case } from 'types/common/Case'
+import { Dictionary } from 'types/common/Dictionary'
 
-import CaseList from '../components/CaseList'
-import FormInput from '../components/FormInput'
-import FormTextArea from '../components/FormTextArea'
+import Cases from './Cases'
+import Content from './Content'
 
-import '../styles/View.css'
+// Possibly move after possible refactor
+import FormInput from './form/FormInput'
+import FormTextArea from './form/FormTextArea'
 
-import { sortedArrayItemInsertionIndex } from '../helper/helper'
+import 'styles/View.css'
+import 'styles/CaseAddForm.css'
+
+import { getSortedInsertionIndex } from 'utils/functions'
 
 
-const defaultFormValues: Dictionary<string> = {
+const DEFAULT_FORM_VALUES: Dictionary<string> = {
 	title: '',
 	description: '',
 	date: ''
@@ -22,12 +26,13 @@ const defaultFormValues: Dictionary<string> = {
 class View extends React.Component<{}, ViewState> {
 	constructor(props: {}) {
 		super(props)
+
 		this.state = {
 			// we assume this array is sorted by date
 			cases: [],
 			selectedCaseIndex: 0,
 			// decided not to use nested state, because of the overhead when accessing attributes
-			formValues: { ...defaultFormValues },
+			formValues: { ...DEFAULT_FORM_VALUES },
 			// for now empty, so that the messages are undefined
 			formErrorFlags: { }
 		}
@@ -39,20 +44,16 @@ class View extends React.Component<{}, ViewState> {
 	}
 
 	validateFormFields(...fields: string[]): void {
-		const reduceCb = (flagz: Dictionary<boolean>, field: string): Dictionary<boolean> => {
-			return Object.assign(flagz, {[field]: (this.state.formValues[field].trim() === '')})
+		const reduceCb = (errorFlags: Dictionary<boolean>, field: string): Dictionary<boolean> => {
+			return Object.assign(errorFlags, {[field]: (this.state.formValues[field].trim() === '')})
 		}
-		const newFormErrorFlags = fields.reduce(
-			reduceCb, this.state.formErrorFlags
-		)
-		this.setState({
-			formErrorFlags: newFormErrorFlags
-		})
+		const newFormErrorFlags = fields.reduce(reduceCb, this.state.formErrorFlags)
+		this.setState({formErrorFlags: newFormErrorFlags})
 	}
 	
-	handleFormChangeEvent(formField: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void {
+	handleFormChangeEvent(formField: string, eventValue: string): void {
 		this.setState({
-			formValues: Object.assign(this.state.formValues, {[formField]: event.target.value})
+			formValues: Object.assign(this.state.formValues, {[formField]: eventValue})
 		})
 	}
 
@@ -66,24 +67,29 @@ class View extends React.Component<{}, ViewState> {
 		
 		this.validateFormFields('title', 'description', 'date')
 
+		const {cases, formValues, formErrorFlags, selectedCaseIndex} = this.state
+
 		// verify that every error has been fixed
-		if (Object.keys(this.state.formErrorFlags).every((key: string) => this.state.formErrorFlags[key] === false)) {
+		const noFormError: boolean = Object.keys(formErrorFlags).every((key: string) => formErrorFlags[key] === false)
+		if (noFormError) {
 			// Previous revision contains cooler way to do this, but had to resolve typescript and stuff like that
 			// still probably better, cause lower overhead (not worth applying arrow functions on 3 items :D )
 			const newCase: Case = {
-				title: this.state.formValues.title,
-				description: this.state.formValues.description,
-				date: new Date(this.state.formValues.date)
+				title: formValues.title,
+				description: formValues.description,
+				date: new Date(formValues.date)
 			}
-			const insertionIndex: number = sortedArrayItemInsertionIndex(this.state.cases, newCase, (c1: Case, c2: Case): boolean => c1.date < c2.date)
+			const insertionIndex: number = getSortedInsertionIndex(cases, newCase, (c1: Case, c2: Case): boolean => c1.date < c2.date)
 			// inserts in to the array
-			this.state.cases.splice(insertionIndex, 0, newCase)
+			cases.splice(insertionIndex, 0, newCase)
 
+			const shouldSelectedIndexShift: boolean = insertionIndex <= selectedCaseIndex && insertionIndex + 1 < cases.length
+			const newSelectedCase: number = shouldSelectedIndexShift ? selectedCaseIndex + 1 : selectedCaseIndex
 			this.setState({
 				// keeps the order of the selected item
-				selectedCaseIndex:  (insertionIndex <= this.state.selectedCaseIndex && insertionIndex + 1 < this.state.cases.length) ? this.state.selectedCaseIndex + 1 : this.state.selectedCaseIndex,
+				selectedCaseIndex: newSelectedCase,
 				// reset the form here, also forces rerender
-				formValues: { ...defaultFormValues },
+				formValues: { ...DEFAULT_FORM_VALUES },
 				formErrorFlags: {}
 			})
 		}
@@ -91,85 +97,48 @@ class View extends React.Component<{}, ViewState> {
 
 	selectDisplayedCase(selectedCaseIndex: number): void {
 		if (selectedCaseIndex < this.state.cases.length && selectedCaseIndex >= 0) {
-			this.setState({
-				selectedCaseIndex
-			})
+			this.setState({selectedCaseIndex})
 		}
 	}
 
 	render(): React.ReactNode {
-		const displayPast: boolean = this.state.selectedCaseIndex > 0
-		const displayFuture: boolean = this.state.selectedCaseIndex + 1 < this.state.cases.length
+		const {cases, formValues, formErrorFlags, selectedCaseIndex} = this.state
 		return (
 			<div id="container">
-				<section id="cases">
-					{
-						displayPast && 
-							<CaseList
-								id="past"
-								label="Past Events"
-								caseEntries={this.state.cases.slice(0, this.state.selectedCaseIndex)}
-								handleSelectCase={this.selectDisplayedCase}
-							/>
-					}
-					{
-						this.state.cases.length > 1 &&
-							<div id="cases-hint">
-								<h4>Pick an event to display</h4>
-								<h6>lists are scrollable :)</h6>
-							</div>
-					}
-					{
-						displayFuture && 
-							<CaseList 
-								id="future"
-								label="Future Events"
-								caseEntries={this.state.cases.slice(this.state.selectedCaseIndex + 1)} 
-								handleSelectCase={this.selectDisplayedCase} 
-								offset={this.state.selectedCaseIndex + 1}
-							/>
-					}
-				</section>
-				<section id="content">
-				{
-					this.state.cases[this.state.selectedCaseIndex] ? (
-							<>
-								<h2 id="content-title">{this.state.cases[this.state.selectedCaseIndex].title}</h2>
-								<i>{this.state.cases[this.state.selectedCaseIndex].date.toLocaleDateString()}</i>
-								<p>{'Description: ' + this.state.cases[this.state.selectedCaseIndex].description}</p>
-							</>
-						) : (
-							<>
-								Submit form down below to add events
-							</>
-						)
-				}
-				</section>
+				<Cases
+					caseEntries={cases}
+					selectedCaseIndex={selectedCaseIndex}
+					handleSelectCase={this.selectDisplayedCase}
+				/>
+				<Content
+					placeholder="Submit form down below to add events"
+					displayedCase={cases[selectedCaseIndex]}
+				/>
 				<form id="case-add" onSubmit={this.handleSubmitEvent}>
 					<h3 id="form-title">Submit event here</h3>
 					<FormInput
 						name="title" label="Title"
 						type="text"
-						errorFlag={this.state.formErrorFlags.title}
+						errorFlag={formErrorFlags.title}
 						onBlur={this.handleFormBlurEvent}
 						onChange={this.handleFormChangeEvent}
-						value={this.state.formValues.title || ''}
+						value={formValues.title || ''}
 					/>
 					<FormTextArea
 						name="description" label="Description"
-						errorFlag={this.state.formErrorFlags.description}
+						errorFlag={formErrorFlags.description}
 						onBlur={this.handleFormBlurEvent}
 						onChange={this.handleFormChangeEvent}
 						rows={5}
-						value={this.state.formValues.description || ''}
+						value={formValues.description || ''}
 					/>
 					<FormInput
 						name="date" label="Event Date"
 						type="date"
-						errorFlag={this.state.formErrorFlags.date}
+						errorFlag={formErrorFlags.date}
 						onBlur={this.handleFormBlurEvent}
 						onChange={this.handleFormChangeEvent}
-						value={this.state.formValues.date || ''}
+						value={formValues.date || ''}
 					/>
 					<input className="submit-button" type="submit" value="Add Event" />
 				</form>
