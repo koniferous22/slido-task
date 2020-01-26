@@ -1,9 +1,11 @@
+import { Case } from 'types/common/Case'
+
 export interface FormTextAreaProps {
-	name: string;
+	name: keyof Case;
 	label: string;
 	value: string;
 	rows: number;
 	errorFlag: boolean;
-	onBlur: (field: string) => void;
-	onChange: (field: string, value: string) => void;
+	onBlur: (field: keyof Case) => void;
+	onChange: (field: keyof Case, value: string) => void;
 }
