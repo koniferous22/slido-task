@@ -48,8 +48,6 @@ async function fillFieldsExcept(fieldName, case_) {
 }
 
 async function genericFailTest(field, case_) {
-	console.log('generic fail test ' + field)
-	console.log(JSON.stringify(case_))
 	await fillFieldsExcept(field, case_)
 	await attemptSubmitForm()
 	await errorHintCountTest(1)
